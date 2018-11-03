@@ -18,6 +18,7 @@ class BookCart extends Component{
     return (
       <div>
         <div>
+        <h1>Cart</h1>
           {ItemsInCart}
         </div>
         <div className="flex-col flex-x-center">
@@ -35,4 +36,4 @@ class BookCart extends Component{
 
 }
 
-export default BookCart
+export default BookCart;
