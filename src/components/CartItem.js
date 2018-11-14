@@ -1,24 +1,28 @@
 import React from 'react'
+import { removeFromCart } from '../redux/actions'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 const CartItem = (props) => {
 
   return(
     <div>
-      <div className="flex flex-around flex-y-center" id="book">
         <div>
-          {props.book.title}
+          <p>{props.book.title}</p>
         </div>
         <div>
           ${props.book.price}
         </div>
-        <button className="btn btn-danger" onClick={()=>props.removeBook(props.book)}>
+        <button onClick={()=>props.removeFromCart(props.book.id)}>
           Remove
         </button>
       </div>
-      <hr className="hr">
-      </hr>
-    </div>
+    
   )
 }
 
-export default CartItem
+const mapDispatchToProps = dispatch => bindActionCreators({
+  removeFromCart
+}, dispatch)
+
+export default connect(null, mapDispatchToProps)(CartItem)

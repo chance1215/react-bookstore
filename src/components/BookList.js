@@ -1,43 +1,27 @@
-import React, {Component} from 'react'
-import Book from './Book'
+import React from 'react'
+import Book from './Book';
+import {connect} from 'react-redux'
+import { Container } from 'reactstrap'
 
-class BookList extends Component{
-  state = {
-    search: ""
-  }
-
-  handleSearchChange = (e)=>{
-    this.setState({
-      search: e.target.value
-    })
-  }
-
-  render(){
-
-    let search = this.state.search
-    let ListOfBooks = this.props.books.filter(book =>
-      book.title.toLowerCase().includes(search.toLowerCase())
-      || book.author.toLowerCase().includes(search.toLowerCase()))
-    .map(book => <Book key={book.id} addBook={this.props.onClick} book={book} />)
-
+const BookList = (props) => {
+  console.log('props in BookList', props) //always fires twice
+// when you have a key you are checking for duplicate ids
+  let listOfBooks = props.books.map(book => <Book key={book.id} book={book} />)
     return (
-      <div>
-        <div id="search">
-          <input id="searchInput" type="text" name="search" placeholder="Search by Title or Author" onChange={this.handleSearchChange}>
-
-          </input>
-          <button>
-            Search
-          </button>
-        </div>
-        <div>
-          {ListOfBooks}
-        </div>
-      </div>
+      <Container>{listOfBooks}</Container>
     )
   }
 
-}
+//mapStateToProps gives you access to the store state to be specific.
+const mapStateToProps = ({books}) => ({
+  books
+})
+//Above is the deconstructed the paramater way => (const mapStateToProps = ({books}) =>({ books
+//})).
+//Is  pretty much the same as saying const mapStateToProps = state => ({
+//books: state.books
+//})
 
-
-export default BookList;
+export default connect(mapStateToProps)(BookList);
+//mapDispatchToProps allows action creators that are imported to be dispatched as actions.
+// Is also one of the arguments for the connect at the bottom after mapStateToProps.(not needed for this component)
